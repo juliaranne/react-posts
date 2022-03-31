@@ -9,7 +9,12 @@ const Posts = () => {
   return (
     <>
       {loading && <p>Loading</p>}
-      {response && response.map((post) => post.title)}
+      {response &&
+        response.map((post) => (
+          <article key={post.id}>
+            <h2>{post.title}</h2>
+          </article>
+        ))}
       {error && <p>{error.message}</p>}
     </>
   );

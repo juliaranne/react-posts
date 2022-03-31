@@ -1,6 +1,6 @@
 import useAxios from "../hooks/use-axios";
 
-const Posts = () => {
+const Posts = ({ viewPost }) => {
   const { response, loading, error } = useAxios({
     method: "get",
     url: "https://jsonplaceholder.typicode.com/posts",
@@ -12,7 +12,7 @@ const Posts = () => {
       {response &&
         response.map((post) => (
           <article key={post.id}>
-            <h2>{post.title}</h2>
+            <h2 onClick={() => viewPost(post)}>{post.title}</h2>
           </article>
         ))}
       {error && <p>{error.message}</p>}

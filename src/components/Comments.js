@@ -9,6 +9,7 @@ const Comments = ({ postId }) => {
   return (
     <>
       {loading && <p>Loading...</p>}
+      {error && <p>Unable to load comments</p>}
       <ul>
         {postId &&
           response &&

@@ -25,7 +25,7 @@ const PostsContainer = () => {
   return (
     <>
       {activePost ? (
-        <Post post={activePost} author={author} />
+        <Post post={activePost} author={author} userError={error} />
       ) : (
         <Posts viewPost={viewPost} />
       )}

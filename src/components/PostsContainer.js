@@ -1,34 +1,43 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import useAxios from "../hooks/use-axios";
 import Posts from "./Posts";
 import Post from "./Post";
 
 const PostsContainer = () => {
-  const { response, loading, error } = useAxios({
+  const {
+    response: users,
+    loading: loadingUser,
+    error: userError,
+  } = useAxios({
     method: "get",
     url: "https://jsonplaceholder.typicode.com/users",
   });
-  const [activePost, setActivePost] = useState(null);
-  const [author, setAuthor] = useState();
-
-  useEffect(() => {
-    if (activePost) {
-      const user = response.find((user) => user.id === activePost.userId);
-      setAuthor(user);
-    }
-  }, [activePost, response]);
-
-  const viewPost = (post) => {
-    setActivePost(post);
-  };
+  const {
+    response: posts,
+    loading: loadingPosts,
+    error: postsError,
+  } = useAxios({
+    method: "get",
+    url: "https://jsonplaceholder.typicode.com/posts",
+  });
 
   return (
     <>
-      {activePost ? (
-        <Post post={activePost} author={author} userError={error} />
-      ) : (
-        <Posts viewPost={viewPost} />
-      )}
+      <Router>
+        <Routes>
+          <Route
+            path="/posts"
+            element={
+              <Posts posts={posts} loading={loadingPosts} error={postsError} />
+            }
+            exact
+          ></Route>
+          <Route
+            path="/posts/:postId"
+            element={<Post posts={posts} users={users} userError={userError} />}
+          ></Route>
+        </Routes>
+      </Router>
     </>
   );
 };
